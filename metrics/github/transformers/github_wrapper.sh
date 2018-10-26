@@ -24,4 +24,5 @@ aws_secret_access_key = $AWS_SECRET_ACCESS_KEY
 EOF
 
 # Run the job
-poetry run make -f moz_scripts/Makefile full
+# Just do 'get' for testing
+poetry run make -f moz_scripts/Makefile get # full
