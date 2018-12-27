@@ -10,7 +10,7 @@ pip3 install --upgrade \
   poetry \
 
 # get the repository we need and set it up
-git clone --depth 1 https://github.com/mozilla-services/GitHub-Audit
+git clone --depth 1 --single-branch --branch reopen_issues https://github.com/hwine/GitHub-Audit
 cd GitHub-Audit
 poetry install
 
