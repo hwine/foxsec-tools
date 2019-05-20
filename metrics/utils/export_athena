@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -eu
+USAGE="usage: ${0##*/} [options]
+Copy down all Athena Queries, saving as {table-name}.sql
+
+Options:
+    -h | --help     display this help and exit"
+
+warn() { for m ; do echo "$m"; done 1>&2 ; }
+die() { warn "$@" ; exit 2; }
+usage() { warn "$@" "$USAGE"; test $# -eq 0; exit $?; }
+
+# defaults
+export AWS_DEFAULT_PROFILE=cloudservices-aws-stage
+export AWS_DEFAULT_REGION=us-east-1
+DATABASE=foxsec_metrics
+S3=s3://hwine-test-stage/athena/output/
+
+while test $# -gt 0; do
+    case "$1" in
+        -h|--help) usage ;;
+        -*) usage "Unknown option '$1'" ;;
+        *) break ;;
+    esac
+    shift
+done
+
+test $# -eq 0 || usage "Wrong number of arguements"
+
+# Get a list of all views
+stdout=$(aws athena start-query-execution --query-execution-context Database=$DATABASE \
+        --result-configuration "OutputLocation=$S3" \
+        --query-string "show views" )
+qid=$(echo $stdout | jq -r '.QueryExecutionId')
+
+# N.B. all these queries complete "instantly",
+#      this is not Athena best practice
+
+# get and display results
+aws s3 cp ${S3}${qid}.txt .
+cat $qid.txt
+
+# get or update queries
+for query in $(cat $qid.txt); do
+    stdout=$(aws athena start-query-execution --query-execution-context Database=$DATABASE \
+          --result-configuration "OutputLocation=$S3" \
+          --query-string "show create view \"$query\"" )
+    sqlqid=$(echo $stdout | jq -r '.QueryExecutionId')
+    aws s3 cp ${S3}${sqlqid}.txt $query.sql
+done

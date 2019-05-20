@@ -3,6 +3,20 @@
 Utilities in this directory are most likely only needed by the metrics
 product.
 
+## export_athena - Export Athena view definitions as SQL
+
+This tool is used to obtain local copies of the queries, which can then
+be added to the git repository. Typical usage:
+```bash
+    cd ../views/
+    ../utils/export_athena
+    # runs
+    git status .
+    # add any new *.sql files
+    git commit -am "Backup"
+    git push
+```
+
 ## gen_athena_ddl - Generate Athena compatible DDL from JSON files
 
 This tool is used to generate DDL from a collection of sample JSON
