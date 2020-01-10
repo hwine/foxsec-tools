@@ -12,7 +12,8 @@ pip3 install --quiet --upgrade \
 # get the repository we need and set it up
 git clone --quiet --branch 'GH-35_all_branches' --depth 1 https://github.com/hwine/GitHub-Audit
 cd GitHub-Audit
-poetry install --quiet
+#poetry install --quiet
+poetry install
 
 # create credential files
 echo -e "\n$githubAPItoken" >./.credentials
