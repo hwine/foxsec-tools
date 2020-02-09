@@ -33,7 +33,8 @@ dev-setup: dev-common # add target as needed dev-python dev-go dev-java
 #  updates are simple to copy/paste if needed.
 
 dev-common:
-	test -f .pre-commit-config.yaml && pre-commit install --allow-missing-config --install-hooks || true
+	@which pre-commit >/dev/null || { echo "please install pre-commit"; false; }
+
 
 commit-common: 
 	@# All modifications should be staged
