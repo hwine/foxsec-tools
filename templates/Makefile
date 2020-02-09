@@ -13,14 +13,19 @@ help:
 	@echo "clean     remove all artifacts produced by 'make all'"
 
 all:
+	@echo "Project specific steps not entered!!" ; false
 
 test:
+	@echo "Project specific steps not entered!!" ; false
 
 clean:
+	@echo "Project specific steps not entered!!" ; false
 
 commit: commit-common
+	@echo "Project specific steps not entered!!" ; false
 
 dev-setup: dev-common # add target as needed dev-python dev-go dev-java
+	@echo "Project specific steps not entered!!" ; false
 
 # --------------- Begin Templated Targets -------------------------
 #
