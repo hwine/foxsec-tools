@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
 
+# add the name of any external programs used
+external_apps := pre-commit git
+
 
 help:
 	@echo "The following targets are available:"
@@ -32,18 +35,23 @@ dev-setup: dev-common # add target as needed dev-python dev-go dev-java
 #  Ideally, there are no local changes needed below here, so template
 #  updates are simple to copy/paste if needed.
 
-dev-common:
-	@which pre-commit >/dev/null || { echo "please install pre-commit"; false; }
-
+dev-common: check-apps
 
 commit-common: 
 	@# All modifications should be staged
 	git diff-files --quiet || { echo "Unstaged files" ; false; }
 	pre-commit run
 
+check-apps: $(external_apps)
+	# Checking for required apps: $?
+	@ok=true; for app in $?; do which $$app >/dev/null || { ok=false; echo "Missing '$$app'"; }  done ; $$ok
+
+.PHONY: $(external_apps)
+
 
 .PHONY:  \
 	all  \
+	check-apps  \
 	clean  \
 	commit  \
 	commit-common  \
