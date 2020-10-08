@@ -1,4 +1,5 @@
 CREATE EXTERNAL TABLE `github_org_info`(
+  `date` date COMMENT 'from deserializer', 
   `login` string COMMENT 'from deserializer', 
   `name` string COMMENT 'from deserializer', 
   `org_v3id` int COMMENT 'from deserializer', 
@@ -14,4 +15,4 @@ LOCATION
   's3://foxsec-metrics/github/org_info'
 TBLPROPERTIES (
   'has_encrypted_data'='false', 
-  'transient_lastDdlTime'='1602024341')
+  'transient_lastDdlTime'='1602114347')

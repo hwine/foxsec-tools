@@ -1,4 +1,5 @@
 CREATE EXTERNAL TABLE `github_branch_info`(
+  `date` date COMMENT 'from deserializer', 
   `bpr_v3id` int COMMENT 'from deserializer', 
   `bpr_v4id` string COMMENT 'from deserializer', 
   `default_branch_ref` string COMMENT 'from deserializer', 
@@ -22,4 +23,4 @@ LOCATION
   's3://foxsec-metrics/github/branch_info'
 TBLPROPERTIES (
   'has_encrypted_data'='false', 
-  'transient_lastDdlTime'='1602025306')
+  'transient_lastDdlTime'='1602114473')
